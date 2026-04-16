@@ -78,7 +78,7 @@ Create and execute a deployment path for this Bun-based AI Photo Search POC on R
   - build/start commands
   - persistent disk setup note
   - temporary demo teardown checklist
-- Update relevant skill docs in `docs/skills/` with deployment learnings after successful rollout.
+- Update relevant skill docs in `.github/skills/` with deployment learnings after successful rollout.
 
 ## Definition of Done
 

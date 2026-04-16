@@ -266,9 +266,9 @@ Define design tokens in vanilla CSS for:
   /public                 # Static compiled assets (gitignored)
   /docs
     /adr
-    /skills
   .github/
     copilot-instructions.md
+    /skills
     /prompts
       task.prompt.md
 ```
@@ -311,7 +311,7 @@ Define design tokens in vanilla CSS for:
 
 ### 18.2 Skills Baseline and Continuous Learning
 
-- Maintain technology skill files under `docs/skills/` for:
+- Maintain technology skill files under `.github/skills/` for:
   - Bun runtime and server patterns
   - TypeScript standards
   - Lit web components

@@ -24,7 +24,7 @@ Build a mobile-first AI photo search proof-of-concept that supports bulk upload,
 2. Implement the smallest safe change that satisfies the task.
 3. Add or update unit tests with Vitest when behavior changes.
 4. Run relevant checks/tests and report outcomes.
-5. Update skill documents in `docs/skills/` after each successful task implementation.
+5. Update skill documents in `.github/skills/` after each successful task implementation.
 
 ## Manual Testing Requirements
 

@@ -52,7 +52,7 @@ List concrete, testable criteria.
 ## Documentation Updates Required
 
 - README updates if requirements changed
-- Skill updates in `docs/skills/` with lessons learned from successful implementation
+- Skill updates in `.github/skills/` with lessons learned from successful implementation
 
 ## Definition of Done
 
