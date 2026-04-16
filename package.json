@@ -1,0 +1,24 @@
+{
+  "name": "dwp-ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/server/index.ts",
+    "build": "bun build src/pages/index.ts src/pages/upload.ts src/pages/search.ts src/pages/review.ts --outdir public --target browser",
+    "lint": "bun x tsc --noEmit",
+    "format": "bun x prettier --write .",
+    "test": "bunx vitest run",
+    "test:watch": "bunx vitest",
+    "generate-test-pics": "bun run scripts/generate-test-pics.ts"
+  },
+  "dependencies": {
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.0",
+    "prettier": "3.8.3",
+    "typescript": "6.0.2",
+    "vitest": "^2.0.0"
+  }
+}

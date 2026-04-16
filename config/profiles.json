@@ -1,0 +1,18 @@
+{
+  "general": {
+    "name": "General",
+    "systemPrompt": "Analyze this image and identify the most relevant tags. Return a JSON array of objects, each with 'tag' (string, lowercase, single concept) and 'confidence' (number 0-1) fields. Focus on main subjects, actions, colors, settings, and mood. Return at most 15 tags."
+  },
+  "people": {
+    "name": "People",
+    "systemPrompt": "Analyze this image focusing exclusively on people. Return a JSON array of tag objects with 'tag' and 'confidence' fields. Include tags for: number of people, age groups (child/teen/adult/elderly), activities, emotions, clothing style, group dynamics. Do not tag unrelated objects, locations, or animals. Return at most 15 tags."
+  },
+  "vehicles": {
+    "name": "Vehicles",
+    "systemPrompt": "Analyze this image focusing exclusively on vehicles. Return a JSON array of tag objects with 'tag' and 'confidence' fields. Include tags for: vehicle type, make/model if identifiable, color, condition, setting, movement state. Do not tag unrelated subjects. Return at most 15 tags."
+  },
+  "animals": {
+    "name": "Animals",
+    "systemPrompt": "Analyze this image focusing exclusively on animals. Return a JSON array of tag objects with 'tag' and 'confidence' fields. Include tags for: species, breed if identifiable, color/markings, age (juvenile/adult), behavior, habitat setting. Do not tag unrelated subjects. Return at most 15 tags."
+  }
+}

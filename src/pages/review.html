@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review Tags — AI Photo Search</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="app-header__inner">
+        <span class="app-header__title">📷 Photos</span>
+        <nav class="app-header__nav">
+          <a class="btn btn-ghost" href="/">Gallery</a>
+          <a class="btn btn-ghost" href="/search">Search</a>
+          <button id="theme-toggle" class="btn btn-ghost" aria-label="Toggle theme">🌙</button>
+        </nav>
+      </div>
+    </header>
+    <main class="page-content">
+      <div id="review-layout" style="display: flex; flex-direction: column; gap: 20px">
+        <div id="photo-preview" style="text-align: center">
+          <img
+            id="preview-img"
+            src=""
+            alt="Photo preview"
+            style="max-width: 100%; max-height: 60vh; object-fit: contain; border-radius: 12px"
+          />
+          <div id="status-badge" style="margin-top: 10px"></div>
+        </div>
+        <div>
+          <h3 style="margin-bottom: 12px">Review Tags</h3>
+          <tag-review-sheet id="review-sheet"></tag-review-sheet>
+        </div>
+      </div>
+      <div id="error-msg" style="display: none" class="card" role="alert"></div>
+    </main>
+    <script type="module" src="/public/review.js"></script>
+  </body>
+</html>

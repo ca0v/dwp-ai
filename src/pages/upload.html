@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Photos — AI Photo Search</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="app-header__inner">
+        <span class="app-header__title">📷 Photos</span>
+        <nav class="app-header__nav">
+          <a class="btn btn-ghost" href="/">Gallery</a>
+          <a class="btn btn-ghost" href="/search">Search</a>
+          <button id="theme-toggle" class="btn btn-ghost" aria-label="Toggle theme">🌙</button>
+        </nav>
+      </div>
+    </header>
+    <main class="page-content">
+      <h2 style="margin-bottom: 20px">Upload Photos</h2>
+      <photo-uploader id="uploader"></photo-uploader>
+    </main>
+    <script type="module" src="/public/upload.js"></script>
+  </body>
+</html>

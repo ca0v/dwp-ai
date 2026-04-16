@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photo Gallery — AI Photo Search</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="app-header__inner">
+        <span class="app-header__title">📷 Photos</span>
+        <nav class="app-header__nav">
+          <a class="btn btn-ghost" href="/search">Search</a>
+          <a class="btn btn-primary" href="/upload">Upload</a>
+          <button id="theme-toggle" class="btn btn-ghost" aria-label="Toggle theme">🌙</button>
+        </nav>
+      </div>
+    </header>
+    <main class="page-content">
+      <photo-grid id="gallery"></photo-grid>
+    </main>
+    <script type="module" src="/public/index.js"></script>
+  </body>
+</html>

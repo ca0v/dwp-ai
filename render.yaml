@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: dwp-ai-photo-search
+    env: node
+    plan: free
+    buildCommand: |
+      curl -fsSL https://bun.sh/install | bash
+      export PATH="$HOME/.bun/bin:$PATH"
+      bun install
+      bun run build
+    startCommand: |
+      export PATH="$HOME/.bun/bin:$PATH"
+      bun run src/server/index.ts
+    envVars:
+      - key: AI_PROVIDER_URL
+        sync: false
+      - key: AI_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: grok-2-vision-1212
+      - key: AI_PROFILE
+        value: general
+      - key: AI_TIMEOUT_MS
+        value: "30000"
+      - key: UPLOADS_DIR
+        value: /var/data/uploads
+    disks:
+      - name: uploads
+        mountPath: /var/data
+        sizeGB: 1
