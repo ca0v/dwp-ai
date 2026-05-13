@@ -1,0 +1,111 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - live
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build application
+        run: bun run build
+
+      - name: Create deployment package
+        run: |
+          mkdir -p deploy
+          cp -r src public package.json deploy/
+          cp -r .env.example deploy/ || true
+          tar -czf app-deployment.tar.gz deploy/
+          echo "Package created: $(ls -lh app-deployment.tar.gz)"
+
+      - name: Deploy via SSH
+        env:
+          SSH_KEY: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
+          SSH_HOST: ${{ secrets.DIGITALOCEAN_HOST }}
+          SSH_USER: ${{ secrets.DIGITALOCEAN_USER }}
+          SSH_PORT: ${{ secrets.DIGITALOCEAN_SSH_PORT || '22' }}
+          APP_PATH: ${{ secrets.DIGITALOCEAN_APP_PATH }}
+          AI_PROVIDER_URL: ${{ secrets.AI_PROVIDER_URL }}
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_MODEL: ${{ secrets.AI_MODEL || 'grok-2-vision-1212' }}
+          AI_PROFILE: ${{ secrets.AI_PROFILE || 'general' }}
+          AI_TIMEOUT_MS: ${{ secrets.AI_TIMEOUT_MS || '30000' }}
+          UPLOADS_DIR: ${{ secrets.UPLOADS_DIR || '/var/data/uploads' }}
+          PORT: ${{ secrets.PORT || '3000' }}
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts 2>/dev/null || true
+
+          # Upload deployment package
+          scp -P $SSH_PORT -r app-deployment.tar.gz $SSH_USER@$SSH_HOST:$APP_PATH/
+
+          # Remote deployment commands
+          ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << 'EOSSH'
+            set -e
+            echo "Starting deployment..."
+
+            # Navigate to app directory
+            cd $APP_PATH
+
+            # Extract new code
+            echo "Extracting application..."
+            tar -xzf app-deployment.tar.gz
+
+            # Install Bun if not present
+            if ! command -v bun &> /dev/null; then
+              echo "Installing Bun..."
+              curl -fsSL https://bun.sh/install | bash
+              export PATH="$HOME/.bun/bin:$PATH"
+            fi
+            export PATH="$HOME/.bun/bin:$PATH"
+
+            # Update dependencies
+            echo "Installing dependencies..."
+            cd deploy
+            bun install
+
+            # Create .env file
+            echo "Configuring environment..."
+            cat > .env << EOF
+            AI_PROVIDER_URL=$AI_PROVIDER_URL
+            AI_API_KEY=$AI_API_KEY
+            AI_MODEL=$AI_MODEL
+            AI_PROFILE=$AI_PROFILE
+            AI_TIMEOUT_MS=$AI_TIMEOUT_MS
+            UPLOADS_DIR=$UPLOADS_DIR
+            PORT=$PORT
+            EOF
+
+            # Stop existing process (if any)
+            echo "Stopping existing service..."
+            pkill -f "bun.*src/server/index.ts" || true
+            sleep 2
+
+            # Start the application
+            echo "Starting application..."
+            nohup bun run src/server/index.ts > server.log 2>&1 &
+
+            echo "Deployment complete!"
+          EOSSH
+
+          echo "✅ Deployment to DigitalOcean successful"
+
+      - name: Deployment Status
+        if: failure()
+        run: echo "❌ Deployment failed. Check the logs above for details."
